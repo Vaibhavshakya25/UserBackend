@@ -5,17 +5,16 @@ const bycrypt = require('bcrypt');
 const User = require('../models/userSchema');
 // Middleware
 const Middleware = (req,res,next)=>{
-    console.log('Middleware is pending');
+    res.set('Access-Control-Allow-Origin', '*');
     next();
 }
 
 
-router.get('/',(req,res)=>{
-    res.set('Access-Control-Allow-Origin', '*');
+router.get('/',Middleware ,(req,res)=>{
     res.send('This is Home Page');
 })
 
-router.post('/register',async (req,res)=>{
+router.post('/register',Middleware ,async (req,res)=>{
     const {firstName, lastName, phone, email, password, cpassword} = req.body;
     if(!firstName || !lastName || !phone || !email || !password || !cpassword){
         return res.json({message: "Please fill all the Required Data"});
@@ -25,7 +24,6 @@ router.post('/register',async (req,res)=>{
         const userexist = await User.findOne({email:email});
 
         if(userexist){
-            res.set('Access-Control-Allow-Origin', '*');
             return res.status(422).json({error: "Email Already Registered"})
         }
 
@@ -33,17 +31,15 @@ router.post('/register',async (req,res)=>{
             const store =  await user.save();
 
        if(store){
-        res.set('Access-Control-Allow-Origin', '*');
          res.status(201).json({message: "Data is Register in Database"});
        }
     }
     catch(err){
-        res.set('Access-Control-Allow-Origin', '*');
         res.status(500).json({message :"Failed to Register", error : error});
     }
 })
 
-router.post('/signin',async (req,res)=>{
+router.post('/signin', Middleware ,async (req,res)=>{
     try{
         const {email,password} = req.body;
         if(!email || !password){
@@ -54,7 +50,6 @@ router.post('/signin',async (req,res)=>{
         if(userlogin){
             const matchpass = await bycrypt.compare(password,userlogin.password);
             if(matchpass){
-                res.set('Access-Control-Allow-Origin', '*');
                 res.status(200).json({message:"Login Success"});
             }
             else{
@@ -71,10 +66,9 @@ router.post('/signin',async (req,res)=>{
     }
 })
 
-router.get('/users',async (req,res)=>{
+router.get('/users',Middleware ,async (req,res)=>{
     try{
         const response =await  User.find({});
-        res.set('Access-Control-Allow-Origin', '*');
         res.status(200).send(response);
     }
     catch(error){
