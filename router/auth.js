@@ -11,6 +11,7 @@ const Middleware = (req,res,next)=>{
 
 
 router.get('/',(req,res)=>{
+    res.set('Access-Control-Allow-Origin', '*');
     res.send('This is Home Page');
 })
 
@@ -24,6 +25,7 @@ router.post('/register',async (req,res)=>{
         const userexist = await User.findOne({email:email});
 
         if(userexist){
+            res.set('Access-Control-Allow-Origin', '*');
             return res.status(422).json({error: "Email Already Registered"})
         }
 
@@ -31,10 +33,12 @@ router.post('/register',async (req,res)=>{
             const store =  await user.save();
 
        if(store){
+        res.set('Access-Control-Allow-Origin', '*');
          res.status(201).json({message: "Data is Register in Database"});
        }
     }
     catch(err){
+        res.set('Access-Control-Allow-Origin', '*');
         res.status(500).json({message :"Failed to Register", error : error});
     }
 })
@@ -50,9 +54,11 @@ router.post('/signin',async (req,res)=>{
         if(userlogin){
             const matchpass = await bycrypt.compare(password,userlogin.password);
             if(matchpass){
+                res.set('Access-Control-Allow-Origin', '*');
                 res.status(200).json({message:"Login Success"});
             }
             else{
+                res.set('Access-Control-Allow-Origin', '*');
                 res.status(400).json({error: "Invalid Password"});
             }
         }
@@ -68,6 +74,7 @@ router.post('/signin',async (req,res)=>{
 router.get('/users',async (req,res)=>{
     try{
         const response =await  User.find({});
+        res.set('Access-Control-Allow-Origin', '*');
         res.status(200).send(response);
     }
     catch(error){
