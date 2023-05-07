@@ -12,7 +12,7 @@ const PORT = process.env.PORT || 6000;
 // Link The Router File
 app.use(require('./router/auth'));
 app.use(cors({
-    origin: "http://localhost:3000/"
+    origin: "https://mychoicegarment.netlify.app/"
 }));
 
 app.listen(PORT,()=>{
