@@ -6,7 +6,7 @@ require('./Database/conn');
 
 app.use(express.json());
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 6000;
 
 // Link The Router File
 app.use(require('./router/auth'));
