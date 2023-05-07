@@ -1,5 +1,6 @@
 const express = require('express');
 const dotenv = require('dotenv');
+const cors = require("cors");
 const app = express();
 dotenv.config();
 require('./Database/conn');
@@ -10,7 +11,7 @@ const PORT = process.env.PORT || 6000;
 
 // Link The Router File
 app.use(require('./router/auth'));
-
+app.use(cors());
 
 app.listen(PORT,()=>{
     console.log('Server is Started ' + PORT);
