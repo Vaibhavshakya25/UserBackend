@@ -11,7 +11,6 @@ const PORT = process.env.PORT || 6000;
 
 // Link The Router File
 app.use(require('./router/auth'));
-const cors=require("cors");
 const corsOptions ={
    origin:'*', 
    credentials:true,            //access-control-allow-credentials:true
