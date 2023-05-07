@@ -1,6 +1,5 @@
 const express = require('express');
 const dotenv = require('dotenv');
-const cons = require('cons');
 const app = express();
 dotenv.config();
 require('./Database/conn');
@@ -11,7 +10,6 @@ const PORT = process.env.PORT || 5000;
 
 // Link The Router File
 app.use(require('./router/auth'));
-app.use(cons());
 
 
 app.listen(PORT,()=>{
